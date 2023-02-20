@@ -5,50 +5,71 @@ output: html_document
 
 ## Project title
 
-Give your project a concise, interesting title that summarizes the entirety of your project
+Movie Releases in 2022: An Analysis
 
 ### Authors
 
-Names of your team members
+* Andrew Acierto Santa Monica (asmonica@uw.edu)
+* Marvin Chapman (chapmanm@uw.edu)
+* Brandon Ha (bh181993@uw.edu)
+* Jay Jang (jayjang@uw.edu)
+* David Illano (dilano@uw.edu)
 
-### Date
+### February 20, 2023
 
 Winter 2022
 
 ### Abstract
 
-No more than three sentences that summarize your project. Focus on the very most important aspects. For example: (1) "Our main question is .... This question is important because .... To address the question, we will ...." (2) "We are concerned with ..., because .... To address this concern, we plan to ...." (3) "Consider that .... This is important because .... Accordingly, we plan to ...."
+The project's primary question is how can metrics like genre, runtime, age rating, and actors effect a movie's IMDB ranking and Metascore? To address this inquiry, the project will analyze a dataset that contains information regarding thousands of movies realeased in 2022. This project and guiding question aims to better characterize the types of movies that people enjoyed in 2022 as well as what forms of entertainment were best recieved by audiences.
 
 ### Keywords
 
-3-5 keywords that summarize your project.
-(e.g., "Keywords: human physiology; bicycle exercise; Gen Z; times-series data")
+* Movies
+* IMDB
+* 2022 Rankings
+* Metascore
 
 ### Introduction  
 
-Briefly introduce your project.  Include 3-5 research questions. What motivates the questions? Why are they important? (at least 200 words)
+This project aims to analyze trends in movies that were released and listed on IMDB in 2022. Movies make up a significant share of how people spend their free time and engage with entertainment media. In evaluating what characteristics in movies make them more appealing to audiences, the project hopes to better understand how people consume types of media, and what kinds of movies they most enjoy. Some questions the project hopes to answer include...
+    * Do factors like movie run time have an impact on how much audiences enjoy it? 
+    * Were movies of a certain genre more popular during 2022 than others? And did audiences enjoy certain genres more than others?
+    * Did movie releases in 2022 cater to specific age demographics more than others? Do age ratings have an impact on how audiences received the movie?
+    
+  These question will guide the project in determining whether things like movie run time, genre, age rating, and other similar metrics have an impact on audience enjoyment and reception. These measurements of how audiences responded to movie releases in 2022 are quantified by IMDB rankings/scores and Metascores. 
 
 ### Related Work  
 
-Describe your topic and related work in this space. You must include 3 citations to related work (URLs to similar work, high quality articles from the popular press, research papers, etc. ) Please use a standard citation style of your choice. (at least 200 words)
+At the start of the COVID-19 pandemic, box office revenues plumentted. With few movie goers and the logistical obstacles of producing films, the ways in which people enjoyed movies during the pandemic shifted dramatically. However, over the course of 2022, the film industry began its [resurgence](https://www.latimes.com/entertainment-arts/business/story/2022-12-22/movie-business-2022-box-office-avatar-paramount-top-gun-disney-universal). With blockbuster films like Top Gun: Maverick, Everything Everywhere All At Once, and Avatar once again drawing in audiences to theaters, examining what kind of movies are driving audience showings yield some surprising or important information. This project hopes to examine the types of films audiences viewed and enjoyed throughout the year. 
+
+In addition to box office revenues, movie [reviews](https://www.nytimes.com/2022/12/06/movies/best-movies-2022.html), [rankings](https://editorial.rottentomatoes.com/guide/best-2022-movies/), and [scores](https://www.imdb.com/chart/top/?ref_=nv_mv_250) have long been used to quantify the audience reception of a film. [Studies](https://www.researchgate.net/publication/281730174_The_determinants_of_box_office_performance_in_the_film_industry_revisited) have tried to evaluate factors that could be used as indicators for box office success and postive audiece recption. Factors like the [volume of user reviews](https://www.jstor.org/stable/40864675), and even the [relationship between film genres and human biology](https://www.nature.com/articles/palcomms201779) have been explored. Similarly, this project will use these metrics of quantifying audience reception and key characterisitcs of films to establish a better understanding of how specific traits relate to film reception. These findings may not only reveal information about trends in the movie industry, but also reveal audience preferences and sentiments over the course of the year. 
+
+References: 
+    * “Best Movies 2022.” Rotten Tomatoes Movie and TV News Best Movies 2022 Comments, https://editorial.rottentomatoes.com/guide/best-2022-movies/. 
+    * Chintagunta, Pradeep K., et al. “The Effects of Online User Reviews on Movie Box-Office Performance: Accounting for Sequential Rollout and Aggregation across Local Markets.” SSRN Electronic Journal, 2010, https://doi.org/10.2139/ssrn.1331124. 
+    * Dargis, Manohla, and A. O. Scott. “Best Movies of 2022.” The New York Times, The New York Times, 6 Dec. 2022, https://www.nytimes.com/2022/12/06/movies/best-movies-2022.html. 
+    * Faughnder, Ryan. “Hollywood's 2022 Box Office Reality Check: Not Enough Hits and a Movie Shortage.” Los Angeles Times, Los Angeles Times, 22 Dec. 2022, https://www.latimes.com/entertainment-arts/business/story/2022-12-22/movie-business-2022-box-office-avatar-paramount-top-gun-disney-universal. 
+    * Grodal, Torben. “How Film Genres Are a Product of Biology, Evolution and Culture—an Embodied Approach.” Palgrave Communications, vol. 3, no. 1, 2017, https://doi.org/10.1057/palcomms.2017.79. 
+    * Pangarker, N. A., and E.v.d.M. Smit. “The Determinants of Box Office Performance in the Film Industry Revisited.” South African Journal of Business Management, vol. 44, no. 3, 2013, pp. 47–58., https://doi.org/10.4102/sajbm.v44i3.162. 
+    * “Top 250 Movies.” IMDb, IMDb.com, https://www.imdb.com/chart/top/?ref_=nv_mv_250. 
+
 
 ### The Dataset
 
-Where did you find the data? Please include a link to the data source  
-Who collected the data?  
-How was the data collected or generated?  
-Why was the data collected?  
-How many observations (rows) are in your data?  
-How many features (columns) are in the data?  
-What, if any, ethical questions or questions of power do you need to consider when working with this data?  
-What are possible limitations or problems with this data?   (at least 200 words)
+The dataset is called "IMDB 2022 movies" and was found on [Kaggle](https://www.kaggle.com/datasets/mahmoudahmed6/imdb-2022-movies?resource=download). The data was collected by Mahmoud Ahmed via web scrapping the IMDB website. The dataset includes 10,000 movie releases in 2022 and was compiled in order to better understand the characteristics of movies released throughout the year. Information about the movie name, IMDB ranking, release year, IMDB certificate (age rating), move run time, genre, IMDB rating, Metascore, movie plot, director, actors, and number of reviews are included in the dataset. 
+
+Some considerations that should be taken into account when examining this dataset include. The subjective nature of some factors like Metascore and ratings. Metascores particularly are calculating by giving more influence to prominent publications and figures which may impact the how movies are rating and ranked. Some limitations of the dataset include the fact that it only includes movies that were released in 2022, so trends that are found within the dataset would be isolated to the one year of movie releases. Another limitation of the dataset is that factors like budget are excluded. These excluded factors may have an impact on the ratings and rankings of films that are not represented by the dataset as it is. 
 
 ### Implications
 
-Assuming you answer your research questions, briefly describe the expected or possible implications for technologists, designers, and policymakers. (at least 150 words)
+The most immediate application for any findings of this project include examining how audiences enjoy movies and what kinds of movies will likely be popular. Although there is no guarantee that audience preferences remain constant from year to year, the information gleaned from examining the releases in 2022 may show what genres tend to be better rated for example. Other implications include what types of movies directors and studios may want to make and will be more profitable. Technologists, designers, and policymakers, in the film industry may be able to benefit in many ways from answers to the projects guiding questions. Technologists may be able to look at what kinds of films are more successful, and mimic those techniques used. Designers similarly may be able to look at films that were successful and what kinds of designs and thematic choices audiences enjoyed the most. Policymakers could look at how movie ratings effect the rating of movies and the ways in which audiences perceive films and re-examine how movie age ratings are made. 
 
 ### Limitations & Challenges
-What challenges or limitations might you need to address with your project idea more broadly? Briefly discuss. (at least 150 words)
+
+The biggest limitations of the project include not having access to more information about the movies released in 2022. For example, factors like movie budget likely have a large impact on the ways in which audiences enjoy and interact with the films. The amount of marketing for the movie may also be an important factor. Whether the film was nominated for an award may also have some impact on public perception of the film, even if it may not have impacted audience viewing experience when the film first released. Another key limitation that should be noted is that the dataset only includes films that were released in 2022. 
+
+Some challenges that the project may encounter has to do with evaluating whether more weight should be given to certain movies. For example, when examining the number of movies with a certain genre, whether movies that were much more popular should be given more weight is an important consideration that will have to be determined. 
 
 ### Summary Information
 

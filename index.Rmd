@@ -1,7 +1,5 @@
 ---
-title: "Exploratory Analysis"
-output: html_document
----
+
 
 ## Project title
 
@@ -46,13 +44,14 @@ At the start of the COVID-19 pandemic, box office revenues plumentted. With few 
 In addition to box office revenues, movie [reviews](https://www.nytimes.com/2022/12/06/movies/best-movies-2022.html), [rankings](https://editorial.rottentomatoes.com/guide/best-2022-movies/), and [scores](https://www.imdb.com/chart/top/?ref_=nv_mv_250) have long been used to quantify the audience reception of a film. [Studies](https://www.researchgate.net/publication/281730174_The_determinants_of_box_office_performance_in_the_film_industry_revisited) have tried to evaluate factors that could be used as indicators for box office success and postive audiece recption. Factors like the [volume of user reviews](https://www.jstor.org/stable/40864675), and even the [relationship between film genres and human biology](https://www.nature.com/articles/palcomms201779) have been explored. Similarly, this project will use these metrics of quantifying audience reception and key characterisitcs of films to establish a better understanding of how specific traits relate to film reception. These findings may not only reveal information about trends in the movie industry, but also reveal audience preferences and sentiments over the course of the year. 
 
 References: 
-    * “Best Movies 2022.” Rotten Tomatoes Movie and TV News Best Movies 2022 Comments, https://editorial.rottentomatoes.com/guide/best-2022-movies/. 
-    * Chintagunta, Pradeep K., et al. “The Effects of Online User Reviews on Movie Box-Office Performance: Accounting for Sequential Rollout and Aggregation across Local Markets.” SSRN Electronic Journal, 2010, https://doi.org/10.2139/ssrn.1331124. 
-    * Dargis, Manohla, and A. O. Scott. “Best Movies of 2022.” The New York Times, The New York Times, 6 Dec. 2022, https://www.nytimes.com/2022/12/06/movies/best-movies-2022.html. 
-    * Faughnder, Ryan. “Hollywood's 2022 Box Office Reality Check: Not Enough Hits and a Movie Shortage.” Los Angeles Times, Los Angeles Times, 22 Dec. 2022, https://www.latimes.com/entertainment-arts/business/story/2022-12-22/movie-business-2022-box-office-avatar-paramount-top-gun-disney-universal. 
-    * Grodal, Torben. “How Film Genres Are a Product of Biology, Evolution and Culture—an Embodied Approach.” Palgrave Communications, vol. 3, no. 1, 2017, https://doi.org/10.1057/palcomms.2017.79. 
-    * Pangarker, N. A., and E.v.d.M. Smit. “The Determinants of Box Office Performance in the Film Industry Revisited.” South African Journal of Business Management, vol. 44, no. 3, 2013, pp. 47–58., https://doi.org/10.4102/sajbm.v44i3.162. 
-    * “Top 250 Movies.” IMDb, IMDb.com, https://www.imdb.com/chart/top/?ref_=nv_mv_250. 
+
+* “Best Movies 2022.” Rotten Tomatoes Movie and TV News Best Movies 2022 Comments, https://editorial.rottentomatoes.com/guide/best-2022-movies/. 
+* Chintagunta, Pradeep K., et al. “The Effects of Online User Reviews on Movie Box-Office Performance: Accounting for Sequential Rollout and Aggregation across Local Markets.” SSRN Electronic Journal, 2010, https://doi.org/10.2139/ssrn.1331124. 
+* Dargis, Manohla, and A. O. Scott. “Best Movies of 2022.” The New York Times, The New York Times, 6 Dec. 2022, https://www.nytimes.com/2022/12/06/movies/best-movies-2022.html. 
+* Faughnder, Ryan. “Hollywood's 2022 Box Office Reality Check: Not Enough Hits and a Movie Shortage.” Los Angeles Times, Los Angeles Times, 22 Dec. 2022, https://www.latimes.com/entertainment-arts/business/story/2022-12-22/movie-business-2022-box-office-avatar-paramount-top-gun-disney-universal. 
+* Grodal, Torben. “How Film Genres Are a Product of Biology, Evolution and Culture—an Embodied Approach.” Palgrave Communications, vol. 3, no. 1, 2017, https://doi.org/10.1057/palcomms.2017.79. 
+* Pangarker, N. A., and E.v.d.M. Smit. “The Determinants of Box Office Performance in the Film Industry Revisited.” South African Journal of Business Management, vol. 44, no. 3, 2013, pp. 47–58., https://doi.org/10.4102/sajbm.v44i3.162. 
+* “Top 250 Movies.” IMDb, IMDb.com, https://www.imdb.com/chart/top/?ref_=nv_mv_250. 
 
 
 ### The Dataset
@@ -72,34 +71,158 @@ The biggest limitations of the project include not having access to more informa
 Some challenges that the project may encounter has to do with evaluating whether more weight should be given to certain movies. For example, when examining the number of movies with a certain genre, whether movies that were much more popular should be given more weight is an important consideration that will have to be determined. 
 
 ### Summary Information
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
+source("summary_table.R")
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library("knitr")
+library(scales)
+movies_ds <- read.csv("C:\\Users\\jayja\\Desktop\\2022 Movies.csv")
 
-Write a summary paragraph of findings that includes the 5 values calculated from your summary information R script
+#number of movies 
+movies_ds <- movies_ds %>% 
+  slice(1:500)
+num_of_movie <- nrow(movies_ds)
+
+#highest rated film
+movies_ds <- movies_ds %>% 
+  mutate(IMDb_Score = word(Score, 1))
+movies_ds$IMDb_Score <- as.numeric(movies_ds$IMDb_Score)
+top_rated_film <- movies_ds %>% 
+  filter(IMDb_Score == max(IMDb_Score, na.rm=TRUE)) %>% 
+  pull(Title)
+  
+#average runtime 
+movies_ds <- movies_ds %>% 
+  mutate(length = word(Time, 1))
+movies_ds$length <- as.numeric(movies_ds$length)
+average_runtime <- mean(movies_ds$length)
+average_runtime <- round(average_runtime)
+
+#most common genre 
+movies_ds <- movies_ds %>% 
+  mutate(genre_single = word(genre, 1))
+movies_ds$genre_single = gsub(',','', as.character(movies_ds$genre_single))
+genre_frequencies <- count(movies_ds, genre_single)
+genre_frequencies <- genre_frequencies %>% 
+  mutate(genre_frequency = genre_frequencies$n)
+most_common_genre <- genre_frequencies %>% 
+  filter(genre_frequency == max(genre_frequency)) %>% 
+  pull(genre_single)
+
+#most rating 
+rating_frequencies <- count(movies_ds, certificate)
+rating_frequencies <- rating_frequencies %>% 
+  mutate(rating_frequency = rating_frequencies$n)
+most_common_rating <- rating_frequencies %>% 
+  filter(rating_frequency == max(rating_frequency)) %>% 
+  pull(certificate)
+  
+  
+summary_info <- list()
+summary_info$num_observations <- num_of_movie
+summary_info$highest_rated <- top_rated_film
+summary_info$average_runtime <- average_runtime
+summary_info$most_common_genre <- most_common_genre
+summary_info$most_common_age_rating <- most_common_rating
+
+
+
+
+```
+
+This dataset examines the top `r num_of_movie` movies that were released in 2022. From this data, we are able to learn more about what kind of movies people watched and enjoyed during the year of 2022. For example, the most highly rated movie on IMDb in 2022 by Metascore was `r top_rated_film`. The average runtime of all movies was `r average_runtime`. The most common genre was `r most_common_genre`. While the most common age rating of the films was `r most_common_rating`.
 
 ### Table
 
-Include a table of aggregate information
+```{r summary_table, echo = FALSE, warning = FALSE, message = FALSE}
 
-Describe why you included the table and what information it reveals
+movies_ds <- movies_ds %>% 
+  slice(1:500)
+
+#number of movies per genre
+movies_ds <- movies_ds %>% 
+  mutate(genre_single = word(genre, 1))
+movies_ds$genre_single = gsub(',','', as.character(movies_ds$genre_single))
+genre_frequencies <- count(movies_ds, genre_single)
+genre_frequencies <- genre_frequencies %>% 
+  mutate(genre_frequency = genre_frequencies$n)
+
+#puts IMDb scores into new column and makes them numeric
+movies_ds <- movies_ds %>% 
+  mutate(IMDb_Score = word(Score, 1))
+movies_ds$IMDb_Score <- as.numeric(movies_ds$IMDb_Score)
+#average IMDb scores per genre
+average_rating_by_genre <- movies_ds %>% 
+  group_by(genre_single) %>% 
+  summarize(average_rating_by_genre = mean(IMDb_Score, na.rm=TRUE))
+average_rating_by_genre$average_rating_by_genre <- round(average_rating_by_genre$average_rating_by_genre)
+
+#puts Time into new column and makes them numeric
+movies_ds <- movies_ds %>% 
+  mutate(length = word(Time, 1))
+movies_ds$length <- as.numeric(movies_ds$length)
+#average time per genre
+average_runtime_by_genre <- movies_ds %>% 
+  group_by(genre_single) %>% 
+  summarize(average_runtime_by_genre = mean(length, na.rm=TRUE))
+average_runtime_by_genre$average_runtime_by_genre <- round(average_runtime_by_genre$average_runtime_by_genre)
+
+#turns number of reviews in numeric
+movies_ds$reviews = gsub(',','', as.character(movies_ds$reviews))
+movies_ds$reviews <- as.numeric(movies_ds$reviews)
+#average number of reviews per genre
+average_num_reviews_per_genre <- movies_ds %>% 
+  group_by(genre_single) %>% 
+  summarize(average_num_reviews_per_genre = mean(reviews, na.rm=TRUE))
+average_num_reviews_per_genre$average_num_reviews_per_genre <- round(average_num_reviews_per_genre$average_num_reviews_per_genre)
+
+#determines rating grouped by genre
+age_rating_frequencies_per_genre <- movies_ds %>% 
+  group_by(genre_single) %>% 
+  count(certificate)
+
+#most common age rating per genre
+most_common_agerating_by_genre <- age_rating_frequencies_per_genre %>% 
+  group_by(genre_single) %>% 
+  filter(n == max(n)) %>% 
+  summarize(genre_single, certificate)
+most_common_agerating_by_genre <- most_common_agerating_by_genre[-c(10), ]
+
+summary_table <- left_join(genre_frequencies, average_runtime_by_genre, by = "genre_single")
+summary_table <- left_join(summary_table, average_num_reviews_per_genre, by = "genre_single")
+summary_table <- left_join(summary_table, average_rating_by_genre, by = "genre_single")
+summary_table <- left_join(summary_table,
+most_common_agerating_by_genre, by = "genre_single")
+
+summary_table <- summary_table[,-2]
+colnames(summary_table) <- c('Genre', 'Number of Movies', 'Average Runtime', 'Average Number of Reviews', 'Average Rating','Most Common Age Rating')
+
+knitr::kable(summary_table)
+```
+
+This table shows the aggregate information for movies in 2022. It is sorted by genre of film and displays information such as the number of movies, the average runtime of films, the most common ratings, the average number of reviews, and average ratings by genre. This table is interesting to examine as it allows for comparisons of these different metric across the most common genres in the top movies released in 2022. For example, there are much more R rated films rated highly in the dataset than there are other age ratings. The relation between these metrics can be observed aswell. 
+
 
 ### Chart 1
 
-Include a chart
-
-Describe why you chose this chart and what information it reveals
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, code = readLines("chart1_example.R")}
+```{r, echo = FALSE, warning = FALSE, message = FALSE, code = readLines("Chart1.R")}
 ```
+
+This chart is a scatterplot depicts the length of a film in minutes compared to the IMDb MetaScores which are a rating of movies by assigning them numeric scores based on audience and critic reviews. In this visualization over 300 of the top rated movies released in 2022 are depicted. This chart shows that there is not an immediately noticeable correlation between the length/run time of a movie and the ratings that it will receive. We chose this visualization as it would allow us to see if there was a meaningful relationship between how long a movie was and how well it was received by an audience. We chose a scatterplot as it allowed us to compared the two categorical variables and would enable us to visually determine whether there appear to be an association. Although statiscal anylsis would still need to be preformed, the scatterplot still helped visualize the relationship. 
+
 
 ### Chart 2
 
-Include a chart
+```{r, echo = FALSE, warning = FALSE, message = FALSE, code = readLines("Chart2.R")}
+```
 
-Describe why you chose this chart and what information it reveals
+This chart is a barchart depicts the frequency of genres for movies that were released in 2022. The visualization reveals that genres like "Action", "Comedy", and "Drama" were most common and that genres like "Sci-Fi" and "Western" were not very common. We chose this visualization as it would allow us to examine what kinds of movies audiences were enjoying during 2022. If more information on different years was obtained, this type of visualization might allow us to see trends in what genres are popular. This barchart was most effective in displaying this information as it allowed us to compare categorical (move genre) and numeric (frequency) values, and in doing so, made it easier to see the distribution of what movies were being produced and watched in 2022. 
 
 ### Chart 3
 
-Include a chart
+```{r, echo = FALSE, warning = FALSE, message = FALSE, code = readLines("Chart3.R")}
+```
 
-Describe why you chose this chart and what information it reveals
+This chart is a histogram that depicts the number of reviews that were submitted to IMDb compared to the rating the movie recieved. This visualization shows that there tends to be more reviews submitted for movies that were rated at 60 Metasocre on IMDb and that towards the ends of the distrubution, low and high Metascore, there are not as many reviews. We wanted to examine this data and visualization as we wanted to evaluate how IMDb Metascore were related to or even affected by the number of reviews that a movie had. This histrogram would allow us to do this as it shows us both the number of reviews as well as a corresponding IMDb Metascore, we can see trends for how high or low rated films compare to the number of reviews they recieved at all. 

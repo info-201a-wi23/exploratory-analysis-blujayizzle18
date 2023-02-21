@@ -2,6 +2,7 @@ movies_ds <- read.csv("C:\\Users\\jayja\\Desktop\\2022 Movies.csv")
 library(ggplot2)
 library(dplyr)
 library(stringr)
+library(scales)
 
 movies_ds <- movies_ds %>% 
   slice(1:500)
